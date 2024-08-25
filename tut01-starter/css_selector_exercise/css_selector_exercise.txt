@@ -1,0 +1,8 @@
+1. "h2{}"
+2. "#intro"
+3. "#intro h2 {} "
+4. "#content h2, #footer h2 {}"
+5. "#content p{}"
+6. "#content > p{}"
+7. ".bordered{}"
+8. "h2.bordered{}"
