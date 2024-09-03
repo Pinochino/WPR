@@ -1,0 +1,13 @@
+#card {
+    width: 500px;
+    height: 200px;
+    border-radius: 1em;
+    border: 0.5em solid #698733;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#card > img{
+    height: 70%;
+}

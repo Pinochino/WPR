@@ -1,0 +1,18 @@
+.container{
+    display: block;
+    background-color: green;
+    max-width: 600px;
+    height: 100%;
+    text-align: center;
+    border: 1px solid black;
+}
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.images > img{
+    max-width: 300px;
+    height: 150px;
+}
