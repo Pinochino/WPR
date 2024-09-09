@@ -13,22 +13,34 @@
     <script>
         window.addEventListener('load', CountDown)
         
+        // function CountDown() {
+        //     let index = 3;
+        //     const countdown = document.querySelector('#countdown');
+        //     countdown.textContent = index;
+        //    const interval =  setInterval(() => {
+        //        index--;
+        //            if (index > 0) {
+        //             countdown.textContent = index;
+        //            } else if(index === 0){
+        //             countdown.textContent = 'Go';
+        //            } else {
+        //             clearInterval(interval);
+        //            }
+        //         },
+        //      1000)
+        // }
+
+        let counter = 3;
+        let timerId = null
         function CountDown() {
-            let index = 3;
-            const countdown = document.querySelector('#countdown');
-            countdown.textContent = index;
-           const interval =  setInterval(() => {
-               index--;
-                   if (index > 0) {
-                    countdown.textContent = index;
-                   } else if(index === 0){
-                    countdown.textContent = 'Go';
-                   } else {
-                    clearInterval(interval);
-                   }
-                },
-             1000)
+            if(counter > 0){
+                console.log(counter);
+                counter--
+            } else if (counter === 0){
+                console.log('Go');
+            }
         }
+        setInterval(CountDown, 1000)
     </script>
 </body>
 </html>

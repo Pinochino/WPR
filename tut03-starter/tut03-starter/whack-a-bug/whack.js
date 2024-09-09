@@ -24,19 +24,32 @@
      */
     function whackBug() {
       // your code goes here
-      const scoreEl = id('score');
-      const result = qs('#game p');
+      // const scoreEl = id('score');
+      // const result = qs('#game p');
 
-      this.src = './bug-whacked.png';
+      // this.src = './bug-whacked.png';
 
-      this.classList.add('whacked')
+      // this.classList.add('whacked')
       
-      let score = parseInt(scoreEl.textContent);
-      scoreEl.textContent = score + 1;
+      // let score = parseInt(scoreEl.textContent);
+      // scoreEl.textContent = score + 1;
 
-      this.removeEventListener('click', whackBug);
-      if (scoreEl.textContent === '24') {
-        result.textContent = `All bugs have been whacked`;
+      // this.removeEventListener('click', whackBug);
+      // if (scoreEl.textContent === '24') {
+      //   result.textContent = `All bugs have been whacked`;
+      // }
+
+      this.src= 'bug-whacked.png';
+      let score = parseFloat(id('score').textContent);
+      let changed = this.classList.contains('whacked');
+      if (!changed) {
+        score++;
+        id('score').textContent = score;
+        this.classList.add('whacked')
+      }
+
+      if (score === 24) {
+        qs('#game p').textContent = 'All bug have been whacked'
       }
 
     }

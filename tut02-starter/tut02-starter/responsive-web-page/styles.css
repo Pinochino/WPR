@@ -30,10 +30,10 @@
 .main {
     display: flex;
     justify-content: space-around;
-    height: 100vh;
-    margin: 1rem 0;
+    height: 80vh;
+    margin: 1rem 8px;
     gap: 1rem;
-    padding: 0 1rem;
+    /* padding: 0 1rem; */
 }
 
 .content{

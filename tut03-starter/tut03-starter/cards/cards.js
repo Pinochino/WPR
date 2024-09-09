@@ -14,7 +14,7 @@ function showCard() {
             // Reset the size of all images
             const allImages = container.querySelectorAll('img');
             allImages.forEach(img => {
-                img.style.height = ''; // Reset height
+                img.style.height = ''; 
             });
 
             // Enlarge the clicked image
@@ -22,3 +22,30 @@ function showCard() {
         });
     }
 }
+
+// (function() {
+//     window.addEventListener('click', init);
+//     let array = [
+//         './images/10C.png','./images/2C.png', './images/2D.png', './images/3D.png', './images/QD.png'
+//     ]
+
+//     function init() {
+//         for (let index = 0; index < array.length; index++) {
+//             const image = document.createElement('img');
+//             image.src = array[index]
+//             let container = document.querySelector('.images');
+//             container.appendChild(image);
+//             image.addEventListener('click',function(){
+//                 let changed = image.classList.contains('enlarged');
+//                 let images = document.querySelectorAll('img')
+
+//                 images.forEach((function(image)  {
+//                     image.classList.remove('enlarged');
+//                 }))
+//                 if (!changed) {
+//                     image.classList.add('enlarged');
+//                 }
+//             } )
+//         }
+//     }
+// })()
