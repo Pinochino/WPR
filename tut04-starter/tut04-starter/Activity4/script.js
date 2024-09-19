@@ -3,11 +3,10 @@
  */
 
 "use strict";
+(function() {
 
-(function () {
-  
   // Initialize event listeners when the page loads
-  window.addEventListener('load', init)
+  window.addEventListener('click', init);
 
   /**
    * Sets up event listeners for the page elements
@@ -15,8 +14,8 @@
    *   that triggers the loadData function
    */
   function init() {
-    const btn = id('loadDataButton');
-    btn.addEventListener('click', loadData);
+    const button = document.getElementById('loadDataButton');
+    button.addEventListener('click', loadData);
   }
 
   /**
@@ -28,44 +27,35 @@
    * - Shows a countdown timer before displaying the data
    * - Calls the displayData function to present the data after the countdown
    */
-  function countdown (ms){
-    return new Promise(resolve => setTimeout(resolve, ms))
-  }
-
-
-  async function loadData() {
-    const content = id('dataContainer');
-    content.textContent = ''; // Clear any previous content
-
+  function loadData() {
     // Define the JSON object with sample data
     const data = [
       { name: "Alice", age: 30, country: "USA" },
       { name: "Bob", age: 25, country: "UK" },
       { name: "Charlie", age: 35, country: "Canada" }
     ]
-
+    
 
     // Prepare to show countdown and data
-    let time = 3;
-    let p = gen('p');
-    content.appendChild(p)
-    // const countdown = setInterval(() => {
-    //   p.textContent = `Loading data in ${time} seconds...`
-    //   content.appendChild(p)
-    //   time--;
-    //   if (time < 0) {
-    //     clearInterval(countdown);
-    //     displayData(data);
-    //   }
-    // }, 1000);
 
-    while(time >= 0){
-      p.textContent = `Loading data in ${time} seconds...`
-      await countdown(1000)
-      time--
-    }
-    displayData(data);
+    const dataContainer = id('dataContainer');
+    const p = document.createElement('p');
+    dataContainer.appendChild(p);
 
+    let counter = 3;
+    let displayCountDown = id('dataContainer');
+    displayCountDown.textContent =  `Loading data in ${counter} seconds...`
+
+    let timerId = setInterval(function() {
+      if (counter > 0) {
+        counter--;
+       displayCountDown.textContent =  `Loading data in ${counter} seconds...`
+
+      } else {
+        clearInterval(timerId);
+        displayData(data);
+      }
+    }, 1000)
 
     // Update countdown every second
 
@@ -79,14 +69,16 @@
    * - Appends each div to the container
    * @param {object} data - The JSON data to be displayed
    */
-  async function displayData(data) {
-    const content = id('dataContainer');
-    content.textContent = '';
-    data.forEach(item => {
-      const div = gen('div');
-      div.textContent = `Name: ${item.name}, Age: ${item.age}, Country: ${item.country}`
-      content.appendChild(div);
-    });
+  function displayData(data) {
+    const container = id('dataContainer');
+    container.innerHTML = '';
+
+    for(let i = 0; i < data.length; i++){
+      let div = gen('div');
+      div.textContent = `Name: ${data[i].name}, Age: ${data[i].age}, Country: ${data[i].country}`;
+      div.classList.add('data-item')
+      container.appendChild(div);
+    }
   }
 
   /**
@@ -97,7 +89,7 @@
   function id(id) {
     return document.getElementById(id);
   }
-
+  
   /**
    * Creates a new DOM element with the specified tag name
    * @param {string} tagName - The name of the tag for the new element
