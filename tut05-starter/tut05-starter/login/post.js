@@ -12,51 +12,54 @@
    */
   function init() {
     // TODO
-    const button = id('sign-in');
-    button.addEventListener('click', signIn);
+    const button = document.querySelector('form');
+    button.addEventListener('submit', signIn);
   }
 
   /**
    * TODO
    * signIn - Signs the user in based on username and password inputs
    */
-  function signIn() {
+  function signIn(event) {
+    event.preventDefault();
     const usernameValue = id('username').value;
     const passwordValue = id('password').value;
 
     //TODO
-    const user = {
-      username: usernameValue, 
-      password: passwordValue
-    }
+    
 
-    fetch(API_URL, {
+    fetch(API_URL , {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify(user)
-    },
-  )
+      body: JSON.stringify({
+        user: usernameValue, 
+        password: passwordValue
+      })
+    })
       .then(statusCheck)
-      .then(data => data.json())
-      .then(displayData(data))
+      .then(response => response.text())
+      .then(data => displayData(data))
       .catch(handleError)
-  }
+    }
 
   /* ------------------------------ Helper Functions  ------------------------------ */
   function displayData(data) {
+    console.log(data);
     const response = id('response');
-    response.innerHTML = '';
-    if (data.username === 'rainbowdash' && data.password === ' ponyta') {
-      response.innerHTML = `username: ${data.username}, password: ${data.password}`
+    response.textContent = '';
+    const user = data.user;
+    const password = data.password
+    if (data.user === 'rainbowdash' && data.password === 'ponyta') {
+      response.textContent = `username: ${user}, password: ${password}`
     } else {
-      response.innerHTML = 'Your information is wrong'
+      response.textContent = `username: ${user}, password: ${password}`
     }
   }
 
   function handleError(error) {
-    console.log(`Can not fetch the data` + error);
+    console.log(`Can not fetch the data ` + error.message);
   }
 
   /**
