@@ -12,54 +12,45 @@
    */
   function init() {
     // TODO
-    const button = document.querySelector('form');
-    button.addEventListener('submit', signIn);
+    const form = document.querySelector('form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      signIn();
+    });
   }
 
   /**
    * TODO
    * signIn - Signs the user in based on username and password inputs
    */
-  function signIn(event) {
-    event.preventDefault();
+  function signIn() {
     const usernameValue = id('username').value;
     const passwordValue = id('password').value;
 
-    //TODO
+    const formDiv = new FormData();
+    formDiv.append('user', usernameValue);
+    formDiv.append('password', passwordValue);
     
-
-    fetch(API_URL , {
+    //TODO
+    fetch(API_URL, {
       method: "POST",
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({
-        user: usernameValue, 
-        password: passwordValue
-      })
+      body: formDiv
     })
       .then(statusCheck)
-      .then(response => response.text())
+      .then(response => response.text()) // Response is plain text
       .then(data => displayData(data))
-      .catch(handleError)
+      .catch(handleError);
     }
 
   /* ------------------------------ Helper Functions  ------------------------------ */
   function displayData(data) {
-    console.log(data);
-    const response = id('response');
-    response.textContent = '';
-    const user = data.user;
-    const password = data.password
-    if (data.user === 'rainbowdash' && data.password === 'ponyta') {
-      response.textContent = `username: ${user}, password: ${password}`
-    } else {
-      response.textContent = `username: ${user}, password: ${password}`
-    }
+  const response = id('response');
+  response.innerHTML = data;
+  return response;
   }
 
   function handleError(error) {
-    console.log(`Can not fetch the data ` + error.message);
+    console.error(error);
   }
 
   /**

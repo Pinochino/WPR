@@ -1,0 +1,8 @@
+1. H City Zoo
+2. H City Zoo
+3. data.people[1].email
+4. 9.5
+5. data['ticket-prices'].child
+6. syntax error
+7. syntax error
+8. data['age-median']

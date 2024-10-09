@@ -13,18 +13,23 @@
    */
   function init() {
     // TODO
-    const inputs = qsa("input[name=animal]");
-    inputs.forEach((input) => {
-      input.addEventListener('change', makeRequest)
-    })
+    // const inputs = qsa("input[name=animal]");
+    // inputs.forEach((input) => {
+    //   input.addEventListener('change', makeRequest)
+    // })
+    
+    const inputDiv = qsa('input');
+    inputDiv.forEach(input => input.addEventListener('click', makeRequest));
   }
 
   /**
    * TODO: Fetch data from the ajax pets API!
    */
   function makeRequest() {
-    const animal = qs("input[name=animal]:checked").value
-    const url = `https://hanustartup.org/wpr/api/pets/index.php?animal=${animal}`;
+    // const animal = qs("input[name=animal]:checked").value
+    // const url = `https://hanustartup.org/wpr/api/pets/index.php?animal=${animal}`;
+    const url = `https://hanustartup.org/wpr/api/pets/index.php?animal=` + this.value;
+
     
 
     fetch(url)

@@ -13,8 +13,15 @@
   function init() {
     // Add event listener to form submit button
     const form = id('registrationForm');
+    form.addEventListener('submit', validateForm, {once: true})
+
     // Add event listeners to input fields for real-time validation
-    form.addEventListener('submit', validateForm)
+    id('name').addEventListener('input', validateName);
+    id('email').addEventListener('input', validateEmail);
+    id('password').addEventListener('input', validatePassword);
+    id('confirmPassword').addEventListener('input', validateConfirmPassword);
+
+   
   }
 
   /**
@@ -29,7 +36,9 @@
     // After successful validation, display a 3-second countdown and then show a success message.
     if(isValid){
       startCountdown();
+      
     }
+
   }
 
   /**
@@ -104,7 +113,7 @@
     const passwordError = id('passwordError');
     passwordError.innerHTML = '';
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if(password.length === 0){
+    if(password.length === 0 || password.length === null){
       passwordError.innerHTML = 'Please enter the password of user';
       return false;
     } else if (!password.match(passwordRegex) && password.length < 8) {
@@ -123,7 +132,7 @@
     const confirmPassword = id('confirmPassword').value;
     const confirmPasswordError = id('confirmPasswordError');
     confirmPasswordError.innerHTML = '';
-    if(confirmPassword.length === 0){
+    if(confirmPassword.length === 0 || confirmPassword.length === null){
       confirmPasswordError.innerHTML = 'Please enter the confirmPassword of user';
       return false;
     } else if (password !== confirmPassword ) {

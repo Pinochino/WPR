@@ -3,9 +3,9 @@ const url = require('url'); // Dùng để phân tích URL
 const port = 3000;
 
 const server = http.createServer((req, res) => {
-    const parsedUrl = url.parse(req.url, true); // Phân tích URL thành đối tượng
-    const pathname = parsedUrl.pathname; // Lấy phần đường dẫn
-    const query = parsedUrl.query; // Lấy phần query string
+    const parsedUrl = url.parse(req.url, true); 
+    const pathname = parsedUrl.pathname; 
+    const query = parsedUrl.query; 
 
     if (req.method === 'GET' && pathname === '/hello/Hello') {
         // Lấy phần tên từ query string (?name=)

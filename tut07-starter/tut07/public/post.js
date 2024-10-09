@@ -4,7 +4,7 @@
 "use strict";
 (function () {
   // TODO: change the port 3000 to your port (if you're using a different one)
-  const API_URL = "http://localhost:3000/login";
+  const API_URL = "http://localhost:3000/user";
 
   window.addEventListener("load", init);
 
@@ -23,20 +23,20 @@
     e.preventDefault();
 
     const username = id("username").value;
-    const pass = id("password").value;
+    const password = id("password").value;
 
     const formData = new FormData();
     formData.append('username', username);
-    formData.append('password', pass);
+    formData.append('password', password);
 
     try {
       const response = await fetch(API_URL, {
         method: "POST",
         body: formData,
       })
-        await statusCheck();
-        const data = await response.json();
-        displayData(data);
+      await statusCheck(response);
+      const data = await response.text();
+      displayData(data);
     } catch (error) {
       handleError(error)
     }
@@ -52,7 +52,11 @@
   }
 
   function handleError(res) {
-    console.logy(res);
+    const message = id("response");
+    message.innerHTML = "";
+    if (res) {
+      message.innerHTML = res;
+    }
   }
 
   /**

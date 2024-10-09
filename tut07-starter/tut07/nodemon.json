@@ -1,13 +1,9 @@
 {
-    "watch": [
-      "server"
-    ],
-    "ext": "ts",
-    "ignore": [
-      "*.test.ts"
-    ],
-    "delay": "3",
-    "execMap": {
-      "ts": "ts-node"
-    }
-  }
+  "watch": ["/"],
+  "ext": "js,ts",
+  "ignore": ["src/tests/"],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": 1000
+}

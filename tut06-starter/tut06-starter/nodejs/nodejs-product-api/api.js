@@ -3,20 +3,24 @@ const http = require("http");
 // Import the getProducts function
 const { getProducts, addProduct, deleteProduct, updateProduct } = require("./dataProvider");
 
+const products = getProducts();
+function findProductById(id){
+  return products.find(id);
+}
+
 // In-memory array to hold products (initially populated from the JSON file)
 const server = http.createServer((req, res) => {
-  const products = getProducts();
 
   if (req.method === "GET" && req.url === "/products") {
     //  Retrieve a list of all products
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(products));
   }
-  else if (req.method === "GET" && req.url.startsWith("/products")) {
+  else if (req.method === "GET" && req.url.startsWith("/products/")) {
     //   Retrieve information about a specific product  by id
     const id = Number(req.url.split("/")[2]);
     console.log(`Looking for product with ID: ${id}`);
-    const productFind = Array.from(products).find(p => p.id === Number(id));
+    const productFind = findProductById(id);
     if (productFind) {
       res.writeHead(200, { "Content-Type": "application/json" });
       res.end(JSON.stringify(productFind));
@@ -42,7 +46,7 @@ const server = http.createServer((req, res) => {
       res.end(JSON.stringify(newProduct));
     });
   }
-  else if (req.method === "PUT" && req.url.startsWith("/products")) {
+  else if (req.method === "PUT" && req.url.startsWith("/products/")) {
     //   Update information about a product by id
     const id = req.url.split("/")[2];
     let body = '';
@@ -68,7 +72,7 @@ const server = http.createServer((req, res) => {
       }
     })
   }
-  else if (req.method === 'DELETE' && req.url.startsWith('/products')) {
+  else if (req.method === 'DELETE' && req.url.startsWith('/products/')) {
     const id = Number(req.url.split('/')[2]);
     const productDelete = deleteProduct(id);
     if (deleteProduct) {
