@@ -2,24 +2,30 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const cookie = require('cookie-parser');
-
+const path = require('path')
 
 // Config middleware
 const multer = require('multer');
-// for application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true })); // built-in middleware
-// for application/json
-app.use(express.json()); // built-in middleware
-// for multipart/form-data (required with FormData)
-app.use(multer().none()); // requires the "multer" module
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(multer().none());
 
-// config engine
-app.use(express.static(path.join(__dirname, 'views')));
+// Set EJS as the template engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './views/login.ejs'))
+    res.render('pages/login.ejs')
+})
+
+
+
+app.get('/profile', (req, res) => {
+    res.render('pages/profile.ejs')
+
 })
 
 app.listen(port, () => {
