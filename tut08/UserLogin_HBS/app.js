@@ -1,14 +1,16 @@
 const express = require('express');
 const app = express();
 const path = require('path')
+require('dotenv').config();
 const fs = require('fs').promises;
+const { engine } = require("express-handlebars");
+
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
 const { encrypt } = require('./crypto');
 
-require('dotenv').config();
-const port = process.env.PORT || 3000;
+require('dotenv').config()
 
 
 // Config middleware
@@ -18,15 +20,24 @@ app.use(express.json());
 app.use(multer().none());
 
 
-// Set EJS as the template engine
-app.set('view engine', 'ejs');
+// Template Engine
+app.engine(
+    'hbs',
+    engine({
+        extname: '.hbs',
+        defaultLayout: 'main',
+        layoutsDir: path.join(__dirname, 'views', 'layouts'),
+        partialsDir: path.join(__dirname, 'views', 'partials'),
+    }),
+);
+app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.render('pages/login.ejs')
+    res.render('layouts/main')
 })
 
 app.post('/', async (req, res, next) => {
@@ -73,12 +84,13 @@ app.get('/profile', (req, res) => {
     const user = req.cookies.user ? JSON.parse(req.cookies.user) : null;
 
     if (user) {
-        res.render('pages/profile.ejs', { user });
+        res.render('layouts/profile', { user });
     } else {
         res.redirect('/');
     }
 })
 
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
 })
