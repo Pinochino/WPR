@@ -18,3 +18,13 @@ module.exports = {
     decryptText
 };
 
+const key = 'mypassword123456';
+const plainText = 'This is a secret message';
+try {
+    const encryptedText = encryptText(plainText, key);
+    console.log('Encrypted Text:', encryptedText);
+    const decryptedText = decryptText(encryptedText, key);
+    console.log('Decrypted Text:', decryptedText);
+} catch (err) {
+    console.error(err.message);
+}

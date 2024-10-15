@@ -2,13 +2,18 @@ const express = require('express');
 const app = express();
 const path = require('path')
 const fs = require('fs').promises;
+const crypto = require('crypto');
+
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 
-const { encrypt } = require('./crypto');
+const { encryptText, decryptText } = require('./crypto');
+
+
 
 require('dotenv').config();
 const port = process.env.PORT || 3000;
+const keyCrytpor = "mypassword123456";
 
 
 // Config middleware
@@ -25,15 +30,16 @@ app.set('views', path.join(__dirname, 'views'));
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.get('/', (req, res) => {
-    res.render('pages/login.ejs')
+    res.render('pages/login', { error: null })
 })
 
-app.post('/', async (req, res, next) => {
+app.post('/', async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).send('File does not exist')
+        return res.status(400).send('Username and password are required');
     }
 
     try {
@@ -44,40 +50,60 @@ app.post('/', async (req, res, next) => {
                 return res.status(404).send('File does not exist');
             }
         } catch (error) {
-            next(error);
+            return res.status(500).send({ message: 'Error reading the file', error });
         }
 
-        let response = JSON.parse(data);
-        let foundUser = false;
+        const users = JSON.parse(data);
+        const user = users.find(u => u.username === username);
 
-        const user = {
-            username: username,
-            password: password
+        if (!users) {
+            return res.render('login', { error: 'User not found!' })
         }
 
-        for (let key in response) {
-            if (response[key].username === user.username && response[key].password === user.password) {
-                foundUser = true;
-                res.cookie('user', JSON.stringify(user), { httpOnly: true })
-                return res.redirect('/profile');
-            }
+        if (user.password !== password) {
+            return res.render('login', { error: "Wrong password!" })
         }
-        return res.status(400).send('Invalid username and password');
 
+        const encryptedUserId = encryptText(user.id, keyCrytpor);
+        res.cookie('user', encryptedUserId);
+        res.redirect('/profile');
     } catch (error) {
-        return res.status(500).send({ message: "Something went wrong on the server" })
+        return res.status(500).send({ message: "Something went wrong on the server", error });
     }
-})
+});
 
-app.get('/profile', (req, res) => {
-    const user = req.cookies.user ? JSON.parse(req.cookies.user) : null;
+app.get('/profile', async(req, res) => {
+    if (!req.cookies.user) {
+        return res.redirect('/');
+    }
 
-    if (user) {
-        res.render('pages/profile.ejs', { user });
-    } else {
+    try {
+        const decryptedUserId = decryptText(req.cookies.user, keyCrytpor);
+
+        if (!decryptedUserId) {
+            return res.redirect('/')
+        }
+
+
+        const data = await fs.readFile('./users.json', 'utf8');
+        const users = JSON.parse(data);
+
+        // Tìm người dùng theo ID đã giải mã
+        const user = users.find(u => u.id === decryptedUserId);
+
+        if (!user) {
+            return res.redirect('/'); // Nếu không tìm thấy người dùng
+        }
+
+        // Gửi thông tin người dùng tới trang profile
+        res.render('pages/profile', { user });
+    } catch (error) {
+        res.clearCookie('user');
         res.redirect('/');
     }
-})
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
