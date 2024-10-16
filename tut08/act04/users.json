@@ -4,6 +4,7 @@
         "name": "John Doe",
         "username": "Hung",
         "password": "123456",
+        "email": "hung@gmail.com", 
         "avatar": "path/to/avatar1.jpg",
         "signupTime": "2024-10-01T10:00:00Z"
     },
