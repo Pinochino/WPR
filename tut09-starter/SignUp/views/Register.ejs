@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Register</h2>
+    <form action="/register" method="post">
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username" autocomplete="additional-name"
+                placeholder="Enter username..">
+            <p class="nameMessage">
+                <?= error ></p>
+        </div>
+        <div class="form-group">
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password" autocomplete="new-password"
+                placeholder="Enter password..">
+            <p class="passwordMessage"></p>
+        </div>
+        <div class="form-group">
+            <label for="re-password">Re-Password: </label>
+            <input type="password" name="re-password" id="re-password" autocomplete="current-password"
+                placeholder="Enter re-password..">
+            <p class="rePassMessage"></p>
+        </div>
+
+        <button class="btn">Submit</button>
+    </form>
+    <script>
+        const usernameInput = document.getElementById('username').value;
+        const passwordInput = document.getElementById('password').value;
+        const rePassInput = document.getElementById('re-password').value;
+
+        const usernameMessage = document.querySelector('.nameMessage');
+        usernameMessage.innerHTML = '';
+        const passwordMessage = document.querySelector('.passwordMessage')
+        passwordMessage.innerHTML = '';
+        const rePassMessage = document.querySelector('.rePassMessage');
+        rePassMessage.innerHTML = '';
+
+        const USERNAME_REGEX = /^[A-Za-z]{6,16}$/;
+        const PASSWORD_REGEX = /^(?=.*?[0-9])(?=.*?[A-Za-z]).{8,32}$/;
+
+        function validateName() {
+            if (!usernameInput.matches(USERNAME_REGEX)) {
+                usernameMessage.innerHTML = 'Username must be between 6 and 16 characters'
+            }
+        }
+
+        function validatePassword() {
+            if (!passwordInput.matches(PASSWORD_REGEX)) {
+                passwordMessage.innerHTML = 'Password must be at least one each of different kinds of characters'
+            }
+        }
+
+        function validateRePassword() {
+            if (!rePassInput.matches(PASSWORD_REGEX)) {
+                rePassInput.innerHTML = 'Re-password must be at least one each of different kinds of characters'
+            } else if (rePassInput !== passwordInput) {
+                rePassInput.innerHTML = 'Re-password must be equal with password'
+            }
+        }
+
+    </script>
+</body>
+
+</html>

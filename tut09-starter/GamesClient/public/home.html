@@ -6,20 +6,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 
 <body>
     <div class="container">
-        <label for="cars">Choose a car:</label>
+        <form>
+            <label for="genres">Choose a genres:</label>
 
-        <select name="cars" id="cars">
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
-        </select>
+            <select name="genres" id="genres">
+            </select>
 
-        <button>Shows games</button>
+            <input type="text" placeholder="Enter year..." id="year">
+
+            <button id="btn">Shows games</button>
+
+            <h3 style="text-align: center;">Games</h3>
+            <table style="margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>name</th>
+                        <th>platform</th>
+                        <th>publisher</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="table-body">
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </form>
     </div>
+
+    <script src="./post.js"></script>
 </body>
 
 </html>

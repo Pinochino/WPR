@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const mysql2 = require("mysql2");
+const path = require('path');
 
 // Middleware
 const multer = require("multer");
@@ -9,8 +10,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(multer().none());
 
-// Connect Database
+app.use(express.static(path.join(__dirname, 'public')))
 
+// Connect Database
 const connection = mysql2.createConnection({
     host: "localhost",
     user: "root",
@@ -32,6 +34,26 @@ process.on("SIGTERM", () => {
     });
 });
 
+
+
+
+app.get('/genres', async (req, res) => {
+    try {
+        let sql = `SELECT genre_name FROM genres`;
+        const [rows] = await connection.promise().query(sql);
+        if (rows.length === 0) {
+            res.type('text');
+            res.status(400).send('Not have data in the database')
+        } else {
+            return res.json(rows);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("An error occured while fetching data");
+    }
+});
+
+
 app.get("/games/genres", async (req, res) => {
     try {
         let sql = `SELECT * FROM genres ORDER BY GENRE_NAME`;
@@ -48,24 +70,30 @@ app.get("/games/genres", async (req, res) => {
     }
 });
 
-app.get("/games/list/:genreid/:year", async (req, res) => {
+app.get("/games/list/:genreName/:year", async (req, res) => {
     try {
-        const genre = req.params.genreid;
+        const genre = req.params.genreName;
         const year = req.params.year;
-        let sql = `SELECT id, name, platform, publisher FROM games WHERE id=? AND release_year=?`;
+        let sql = `
+        SELECT games.id, games.name, games.platform, games.publisher
+        FROM games
+        JOIN genres ON games.genre = genres.id
+        WHERE genres.genre_name=? AND games.release_year=?`;
         const [rows] = await connection.promise().query(sql, [genre, year]);
 
         if (rows.length === 0) {
             res.type("text");
             res.status(400).send("Not have data in the database");
         } else {
-            res.json([rows]);
+            res.json(rows);
         }
     } catch (error) {
         console.error(error);
         res.status(500).send("Have error when fetching data");
     }
 });
+
+
 
 
 
