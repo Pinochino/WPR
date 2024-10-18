@@ -39,25 +39,56 @@ const connection = mysql2.createConnection({
 
 app.post('/register', async (req, res) => {
 
-    const { username, password } = req.body;
-
+    const { username, password, rePassWord } = req.body;
+    let errors = {};
+    let userData = { username, password, rePassWord }
+    const USERNAME_REGEX = /^[\p{L} ]{3,}$/u;
+    const PASSWORD_REGEX = /^[A-Za-z\d@$!%*?&]{6,}$/;
 
     try {
-        let sql1 = `SELECT * FROM users WHERE username=?`;
-        const [existingUser] = await connection.promise().query(sql2, [username]);
+        let sql1 = `SELECT * FROM users WHERE username= ?`;
+        const [existingUser] = await connection.promise().query(sql1, [username]);
+
         if (existingUser.length > 0) {
-            res.type('text')
-            res.render('register', { error })
+            errors.username = "Username have already exist"
         }
+
+        if (!username) {
+            errors.username = 'Username cannot be empty';
+        }
+        else if (!username.match(USERNAME_REGEX)) {
+            errors.username = "Username is not valid";
+        }
+
+        if (!password) {
+            errors.password = 'Password cannot be empty';
+        } else if (!password.match(PASSWORD_REGEX)) {
+            errors.password = 'Password is at least 6 characters';
+        }
+
+        if (!password) {
+            errors.rePassWord = 'Re password cannot be empty';
+        } else if (!rePassWord.match(PASSWORD_REGEX)) {
+            errors.rePassWord = 'Re Password is at least 6 characters';
+        } else if (rePassWord !== password) {
+            errors.rePassWord = 'RePassword do not match with password';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            return res.render('register', { errors, userData });
+        }
+
 
         let sql2 = `INSERT INTO users (username, password) VALUES (?, ?)`;
         const [rows] = await connection.promise().query(sql2, [username, password]);
         if (rows.length === 0) {
-            res.type('text');
+            res.type('plain/text');
             res.status(400).send('Not have data in the database')
         } else {
+            console.log('Inserting data successfully');
             return res.json(rows);
         }
+
     } catch (error) {
         console.error(error);
         res.status(500).send("An error occured while fetching data");
@@ -65,7 +96,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register');
+    res.render('register', { errors: {}, userData: {} });
 })
 
 

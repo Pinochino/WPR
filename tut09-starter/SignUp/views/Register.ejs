@@ -8,66 +8,104 @@
 </head>
 
 <body>
+    <? if(success) { %>
+        <p style="color: green;"><?= success %></p>
+    <? } %>
     <h2>Register</h2>
     <form action="/register" method="post">
         <div class="form-group">
             <label for="username">Username: </label>
             <input type="text" name="username" id="username" autocomplete="additional-name"
-                placeholder="Enter username..">
-            <p class="nameMessage">
-                <?= error ></p>
+                placeholder="Enter username.." value="<%= (userData && userData.username) ? userData.username : '' %>">
+                <% if (errors && errors.username) { %>
+                    <p style="color: red;"><%= errors.username %></p>
+                <% } %>
+                <!-- <p class="nameMessage" style="color: red;"></p> -->
         </div>
         <div class="form-group">
             <label for="password">Password: </label>
             <input type="password" name="password" id="password" autocomplete="new-password"
-                placeholder="Enter password..">
-            <p class="passwordMessage"></p>
+                placeholder="Enter password.." value="<%= (userData && userData.password) ? userData.password : '' %>">
+                <% if (errors && errors.password) { %>
+                    <p style="color: red;"><%= errors.password %></p>
+                <% } %>
+                <!-- <p class="passwordMessage" style="color: red;"></p> -->
         </div>
         <div class="form-group">
-            <label for="re-password">Re-Password: </label>
-            <input type="password" name="re-password" id="re-password" autocomplete="current-password"
-                placeholder="Enter re-password..">
-            <p class="rePassMessage"></p>
+            <label for="rePassWord">Re-Password: </label>
+            <input type="password" name="rePassWord" id="rePassWord" autocomplete="current-password"
+                placeholder="Enter re-password.." value="<%= (userData && userData.rePassWord) ? userData.rePassWord : '' %>">
+                <% if (errors && errors.rePassWord) { %>
+                    <p style="color: red;"><%= errors.rePassWord %></p>
+                <% } %>
+                <!-- <p class="rePassMessage" style="color: red;"></p> -->
         </div>
 
-        <button class="btn">Submit</button>
+        <button id="btn">Submit</button>
     </form>
-    <script>
-        const usernameInput = document.getElementById('username').value;
-        const passwordInput = document.getElementById('password').value;
-        const rePassInput = document.getElementById('re-password').value;
-
-        const usernameMessage = document.querySelector('.nameMessage');
-        usernameMessage.innerHTML = '';
-        const passwordMessage = document.querySelector('.passwordMessage')
-        passwordMessage.innerHTML = '';
-        const rePassMessage = document.querySelector('.rePassMessage');
-        rePassMessage.innerHTML = '';
-
+    <!-- <script>
         const USERNAME_REGEX = /^[A-Za-z]{6,16}$/;
         const PASSWORD_REGEX = /^(?=.*?[0-9])(?=.*?[A-Za-z]).{8,32}$/;
 
-        function validateName() {
-            if (!usernameInput.matches(USERNAME_REGEX)) {
+        document.getElementById('btn').addEventListener('click', async function (event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+            const rePassInput = document.getElementById('rePassWord').value;
+
+            const usernameMessage = document.querySelector('.nameMessage');
+            usernameMessage.innerHTML = '';
+            const passwordMessage = document.querySelector('.passwordMessage')
+            passwordMessage.innerHTML = '';
+            const rePassMessage = document.querySelector('.rePassMessage');
+            rePassMessage.innerHTML = '';
+
+            let hasErros = false
+            if (!usernameInput.match(USERNAME_REGEX)) {
                 usernameMessage.innerHTML = 'Username must be between 6 and 16 characters'
+                hasErros = true
             }
-        }
 
-        function validatePassword() {
-            if (!passwordInput.matches(PASSWORD_REGEX)) {
+
+            if (!passwordInput.match(PASSWORD_REGEX)) {
                 passwordMessage.innerHTML = 'Password must be at least one each of different kinds of characters'
+                hasErros = true
             }
-        }
 
-        function validateRePassword() {
-            if (!rePassInput.matches(PASSWORD_REGEX)) {
-                rePassInput.innerHTML = 'Re-password must be at least one each of different kinds of characters'
-            } else if (rePassInput !== passwordInput) {
-                rePassInput.innerHTML = 'Re-password must be equal with password'
+            if (!rePassInput.match(passwordInput)) {
+                rePassMessage.innerHTML = 'Re-password must be equal with password'
+                hasErros = true
             }
-        }
+            // try {
+            //     const API = `http://localhost:3000/register`;
+    
+            //     const formData = new FormData();
+            //     formData.append('username', usernameInput);
+            //     formData.append('password', passwordInput);
+    
+            //     const response = await fetch(API, {
+            //         method: 'POST',
+            //         body: formData
+            //     })
+    
+            //     const result = await response.json();
+            //     if (result) {
+            //         usernameMessage.innerHTML = result;
+            //         usernameMessage.style.color = 'red';
+            //     }
+            //     else {
+            //         usernameMessage.innerHTML = result.success;
+            //         usernameMessage.style.color = 'green';
+            //     }
+            // } catch (error) {
+            //     console.error(error)
+            // }
+        })
 
-    </script>
+
+
+
+    </script> -->
 </body>
-
 </html>
