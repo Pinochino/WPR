@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb');
+
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017";
 
@@ -64,53 +66,66 @@ async function findStudentByName(studentName) {
     return student;
 }
 
-async function updateStudent(studentid, newdata) {
-    const query = { _id: studentid };
-    const result = (await useCollection('students')).updateOne(query, { $set: newdata });
+async function updateStudent(studentName, newdata) {
+    const query = { name: studentName };
+    const result = await (await useCollection('students')).updateOne(query, { $set: newdata });
 
     if (result) {
         console.log(`Matched ${result.matchedCount} document(s)
         and modified ${result.modifiedCount} document(s)`);
     }
+
+    return result;
 }
 
-async function deleteStudent(student_name) {
+async function deleteStudentByName(student_name) {
     const query = { name: student_name };
     const result = (await useCollection('students')).deleteOne(query);
 
     if (result) {
         console.log(`${result.deletedCount} document(s) deleted.`);
     }
+    return result;
+}
+
+async function deleteStudentById(student_id) {
+    const query = { _id: new ObjectId(student_id) };
+    const result = (await useCollection('students')).deleteOne(query);
+
+    if (result) {
+        console.log(`${result.deletedCount} document(s) deleted.`);
+    }
+    return result;
 }
 
 async function findStudentByAgeGreaterThan(student_age) {
-    const query = { age: student_age };
-    const result = (await useCollection('students')).find({ query: { $gt: 20 } })
+    const query = { age: { $gt: student_age } };
+    const result = await (await useCollection('students')).find(query).toArray();
 
-    if (result) {
-        console.log('All students older than 20 years: ', result)
-    } else {
-        console.log('Not have students oler than 20 years')
+    if (!result) {
+        console.log(`Not have students oler than ${student_age} years`)
     }
+
+    return result;
 }
 
 async function findStudentsByMajor(student_major) {
     const query = { major: student_major };
-    const result = (await useCollection('students')).find(query)
+    const result = (await useCollection('students')).find(query).toArray();
 
     if (result) {
         console.log('All students older than 20 years: ', result)
     } else {
         console.log('Not have students oler than 20 years')
     }
+    return result;
 }
 
-async function sortStudentByAge() {
-    const query = { age: 1 };
-    const result = (await useCollection('students')).find().sort(query).limit(2).toArray();
-    if (result) {
-        console.log('All students are sorted by age: ', result);
-    }
+async function sortStudentByAge(dataSort, order, dataNums) {
+    const sortOrder = order === 'asc' ? 1 : -1;
+    const query = { [dataSort]: sortOrder };
+    const result = await (await useCollection('students')).find().sort(query).limit(dataNums).toArray();
+    return result;
 }
 
 async function getAllCourse() {
@@ -122,11 +137,7 @@ async function getAllCourse() {
 async function findCourseByName(course_name) {
     const query = { course_name: course_name };
     const result = (await useCollection('courses')).findOne(query);
-    if (result) {
-        console.log('The course is ', result);
-    } else {
-        console.log('Not found the course by name: ', course_name);
-    }
+    return result;
 }
 
 async function upsertStudent(query, newName) {
@@ -134,28 +145,37 @@ async function upsertStudent(query, newName) {
     const result = (await useCollection('students')).updateOne(
         query, { $set: newName }, params
     );
-    if ((await result).upsertedCount > 0) {
-        console.log(`Inserted a new document with id ${result.upsertedId._id}`)
-    } else {
-        console.log(`Updated ${result.matchedCount} document(s)
-        and modified ${result.modifiedCount} document(s)`);
-    }
+    return result;
 }
 
 
 async function deleteAllCourses() {
     const result = (await useCollection('courses')).deleteMany({})
     console.log(`Deleted ${result.deletedCount} document(s)`);
+    return result;
 }
 
+async function insertStudent(student_name, student_age, student_major) {
+    const query = { name: student_name, age: student_age, major: student_major };
+    const result = (await useCollection('students')).insertOne(query);
+    return result;
+}
+
+async function insertCourse(course_name, credit_hour) {
+    const query = { name: course_name, hour: credit_hour };
+    const result = (await useCollection('courses')).insertOne(query);
+    return result;
+}
 
 
 module.exports = {
     dbConnect,
+    insertCourse,
+    insertStudent,
     useCollection,
     findStudentByName,
     updateStudent,
-    deleteStudent,
+    deleteStudentByName,
     findStudentByAgeGreaterThan,
     findStudentsByMajor,
     sortStudentByAge,
@@ -164,5 +184,6 @@ module.exports = {
     findCourseByName,
     deleteAllCourses,
     upsertStudent,
-    insertStudent
+    insertStudent,
+    deleteStudentById
 }
