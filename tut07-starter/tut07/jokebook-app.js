@@ -51,7 +51,6 @@ app.get('/jokebook/categories', async (req, res) => {
   res.type('plain/text').send(response);
 })
 
-
 app.get('/jokebook/categories/:category', (req, res) => {
   const categoryValue = req.params.category;
 

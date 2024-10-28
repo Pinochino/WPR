@@ -11,7 +11,7 @@ function init() {
 
 
 function getGenres() {
-    const API = `http://localhost:3000/genres`;
+    const API = `http://localhost:3000/game/genres`;
     fetch(API)
         .then(statusCheck)
         .then(data => data.json())

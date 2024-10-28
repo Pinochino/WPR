@@ -4,17 +4,14 @@ const express = require("express");
 const app = express();
 
 const fs = require("fs").promises;
-const multer = require("multer");
 
-// for application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true })) // built-in middleware
-// for application/json
-app.use(express.json()); // built-in middleware
-// for multipart/form-data (required with FormData)
-app.use(multer().none()); // requires the "multer" module
+// Middlewares
+const multer = require("multer");
+app.use(express.urlencoded({ extended: true })) 
+app.use(express.json()); 
+app.use(multer().none()); 
 
 // define 'add' endpoint here
-
 const port = 8000;
 app.get('/', async (req, res, next) => {
     try {

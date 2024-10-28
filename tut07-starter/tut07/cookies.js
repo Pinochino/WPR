@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(cookieParser());
 app.get('/page1', (req, res) => {
-    if (!res.cookies) {
+    if (!res.cookie) {
         res.type('text/html');
         res.send(`You’re not recognized.<br />Please register your name <a href="/page2">here</a>`)
     }

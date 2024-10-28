@@ -1,0 +1,30 @@
+show dbs
+use eng-dict
+show collections
+db.createCollection('words')
+db.words.insertOne({word: 'dog', definition: 'friend'})
+db.words.insertOne({ word: 'cat', definition: 'boss' })
+db.words.find().pretty()
+db.words.insertMany([
+    { word: 'bird', definition: 'fly' },
+    { word: 'fish', definition: 'swim' },
+    { word: 'cow', definition: 'moo' },
+    { word: 'lion', definition: 'king' },
+    { word: 'horse', definition: 'run' }
+])
+db.words.find({ word: 'dog' }).pretty()
+db.words.updateOne(
+    { word: 'dog' }, 
+    { $set: { definition: 'woof woof' } }
+)
+db.words.find().pretty()
+db.words.updateMany(
+    {}, 
+    { $set: { definition: 'empty: to-update' } }
+)
+db.words.deleteOne({ word: 'dog' })
+db.words.deleteMany({})
+db.words.drop()
+show collections
+
+

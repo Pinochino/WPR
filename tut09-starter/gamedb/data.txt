@@ -1,0 +1,8 @@
+1. SELECT NAME FROM `games` WHERE publisher = "Nintendo";
+2. SELECT name, release_year FROM `games` GROUP by release_year ASC LIMIT 20;
+3. SELECT name, platform,  release_year FROM `games` WHERE name LIKE "Spyro%" and name NOT LIKE "%Skylanders%";
+4．SELECT Round( AVG(release_year), 0) as "avg_release_year" FROM `games`;
+5. SELECT name, release_year
+FROM games
+WHERE genre = 'Puzzle'
+AND release_year = (SELECT MIN(release_year) FROM games WHERE genre = 'Puzzle');

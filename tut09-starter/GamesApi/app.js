@@ -34,7 +34,7 @@ process.on("SIGTERM", () => {
 
 app.get("/games/genres", async (req, res) => {
     try {
-        let sql = `SELECT * FROM genres ORDER BY GENRE_NAME`;
+        let sql = `SELECT * FROM genres ORDER BY GENRE_NAME ASC`;
         let [rows] = await connection.promise().query(sql);
         if (rows.length === 0) {
             res.type("text");
@@ -52,7 +52,7 @@ app.get("/games/list/:genreid/:year", async (req, res) => {
     try {
         const genre = req.params.genreid;
         const year = req.params.year;
-        let sql = `SELECT id, name, platform, publisher FROM games WHERE id=? AND release_year=?`;
+        let sql = `SELECT id, name, platform, publisher FROM games WHERE genre=? AND release_year=? limit 10`;
         const [rows] = await connection.promise().query(sql, [genre, year]);
 
         if (rows.length === 0) {

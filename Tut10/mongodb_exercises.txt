@@ -1,0 +1,10 @@
+1. document
+2. dbs
+3. createCollections
+4. insertMany
+5. :
+6. upsert
+7. deleteMany
+8. gt
+9. set
+10. aggregate
