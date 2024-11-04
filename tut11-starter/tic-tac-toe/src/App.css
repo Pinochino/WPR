@@ -12,8 +12,7 @@ body {
   font-style: normal;
 }
 
-#Square {
-    background-color: red;
+.square {
     width: 3.125rem;
     height: 3.125rem;
     border: 1px solid black;
@@ -23,14 +22,8 @@ body {
 }
 
 #Board {
-    background: yellow;
-    width: 9.375rem;
-    height: 9.375rem;
-    display: flex;
-    flex-wrap: nowrap;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 150px;
 }
 
-span {
-    font-size: 26px;
-    line-height: 26px;
-}
