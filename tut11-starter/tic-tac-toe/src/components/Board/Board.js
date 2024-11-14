@@ -1,12 +1,12 @@
 import Square from "../Square/Square";
 import React from 'react';
 
-function Board() {
+function Board({squares, handleClick}) {
 
-    const squares = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    const handleClick = (index) => {
-        console.log('Click' + index);
-    }
+    // const squares = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    // const handleClick = (index) => {
+    //     console.log('Click' + index);
+    // }
 
     return (
         <div id='Board'>
