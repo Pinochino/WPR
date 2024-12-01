@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h3>Set TimeOut</h3>
     <div id="countdown">
@@ -12,29 +14,30 @@
     </div>
     <script>
         // window.addEventListener('load', CountDown)
-        
+
         function CountDown(counter) {
             // let index = 3;
             // const countdown = document.querySelector('#countdown');
-            
+
             // function updateCountdown() {
-                // if(index > 0){
-                //     countdown.textContent = index;
-                //     index--;
-                //     setTimeout(updateCountdown, 1000)
-                // } else if (index === 0) {
-                //     countdown.textContent = 'Go';
-                // }
-                if (counter > 0) {
-                    console.log(counter);
-                    setTimeout(CountDown, 1000, counter - 1);
-                } else if (counter === 0){
-                    console.log('GO');
-                }
+            // if(index > 0){
+            //     countdown.textContent = index;
+            //     index--;
+            //     setTimeout(updateCountdown, 1000)
+            // } else if (index === 0) {
+            //     countdown.textContent = 'Go';
+            // }
+            if (counter > 0) {
+                console.log(counter);
+                setTimeout(CountDown, 1000, counter - 1);
+            } else if (counter === 0) {
+                console.log('GO');
+            }
             // }
         }
-        setTimeout (CountDown, 1000, counter = 3);   
-        
+        setTimeout(CountDown, 1000, counter = 3);
+
     </script>
 </body>
+
 </html>

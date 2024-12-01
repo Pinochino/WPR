@@ -5,6 +5,7 @@ function encryptText(plainText, key) {
     let encrypted = cipher.update(plainText, 'utf8', 'base64');
     encrypted += cipher.final('base64');
     return encrypted;
+
 }
 
 function decryptText(encryptedText, key) {

@@ -3,7 +3,7 @@
  */
 
 "use strict";
-(function() {
+(function () {
 
   window.addEventListener("load", init);
 
@@ -13,7 +13,7 @@
   function init() {
     // Add event listener to form submit button
     const form = id('registrationForm');
-    form.addEventListener('submit', validateForm, {once: true})
+    form.addEventListener('submit', validateForm, { once: true })
 
     // Add event listeners to input fields for real-time validation
     id('name').addEventListener('input', validateName);
@@ -21,7 +21,7 @@
     id('password').addEventListener('input', validatePassword);
     id('confirmPassword').addEventListener('input', validateConfirmPassword);
 
-   
+
   }
 
   /**
@@ -34,9 +34,9 @@
 
     let isValid = validateName() && validateEmail() && validatePassword() && validateConfirmPassword();
     // After successful validation, display a 3-second countdown and then show a success message.
-    if(isValid){
+    if (isValid) {
       startCountdown();
-      
+
     }
 
   }
@@ -55,10 +55,10 @@
       if (counter > 0) {
         notification.innerHTML = `The remaining is ${counter}...`;
         counter--;
-      } else if(counter <= 0){
+      } else if (counter <= 0) {
         notification.innerHTML = `Form submitted successfully`;
         clearInterval(CountDownRun);
-      } 
+      }
     }, 1000)
 
     if (CountDownRun) {
@@ -74,14 +74,14 @@
     const name = id('name').value;
     const nameError = id('nameError');
     nameError.innerHTML = '';
-    if(name.length === 0){
+    if (name.length === 0) {
       nameError.innerHTML = 'Please enter the name of user';
       return false;
     } else if (name.length < 3) {
       nameError.innerHTML = 'Your name is not less than 3 characters';
       return false;
-    } 
-      return true;
+    }
+    return true;
   }
 
   /**
@@ -93,7 +93,7 @@
     const emailError = id('emailError');
     emailError.innerHTML = '';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(email.length === 0){
+    if (email.length === 0) {
       emailError.innerHTML = 'Please enter the email of user';
       return false;
     } else if (!email.match(emailRegex)) {
@@ -102,7 +102,7 @@
     }
     return true;
   }
-  
+
 
   /**
    * Validates the password field
@@ -113,7 +113,7 @@
     const passwordError = id('passwordError');
     passwordError.innerHTML = '';
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
-    if(password.length === 0 || password.length === null){
+    if (password.length === 0 || password.length === null) {
       passwordError.innerHTML = 'Please enter the password of user';
       return false;
     } else if (!password.match(passwordRegex) && password.length < 8) {
@@ -132,10 +132,10 @@
     const confirmPassword = id('confirmPassword').value;
     const confirmPasswordError = id('confirmPasswordError');
     confirmPasswordError.innerHTML = '';
-    if(confirmPassword.length === 0 || confirmPassword.length === null){
+    if (confirmPassword.length === 0 || confirmPassword.length === null) {
       confirmPasswordError.innerHTML = 'Please enter the confirmPassword of user';
       return false;
-    } else if (password !== confirmPassword ) {
+    } else if (password !== confirmPassword) {
       confirmPasswordError.innerHTML = 'User confirmPassword must match the Password field.';
       return false;
     }

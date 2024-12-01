@@ -84,7 +84,6 @@ app.get('/profile', async(req, res) => {
             return res.redirect('/')
         }
 
-
         const data = await fs.readFile('./users.json', 'utf8');
         const users = JSON.parse(data);
 

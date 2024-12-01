@@ -6,7 +6,9 @@ function showCard() {
     const array = ['./images/10C.png', './images/10D.png', './images/3H.png', './images/QD.png', './images/KC.png'];
 
     for (let i = 0; i < array.length; i++) {
-        const image = document.createElement('img');
+        const image = document.create
+        
+        Element('img');
         image.setAttribute('src', array[i]);
         container.appendChild(image);
 
@@ -14,7 +16,7 @@ function showCard() {
             // Reset the size of all images
             const allImages = container.querySelectorAll('img');
             allImages.forEach(img => {
-                img.style.height = ''; 
+                img.style.height = '';
             });
 
             // Enlarge the clicked image

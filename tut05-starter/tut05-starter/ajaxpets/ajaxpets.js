@@ -4,7 +4,7 @@
  * selects their desired pet type.
  */
 "use strict";
-(function() {
+(function () {
 
   window.addEventListener("load", init);
 
@@ -17,12 +17,13 @@
     // inputs.forEach((input) => {
     //   input.addEventListener('change', makeRequest)
     // })
-    
+
     const inputDiv = qsa('input');
     inputDiv.forEach(input => input.addEventListener('click', makeRequest));
   }
 
   /**
+   * 
    * TODO: Fetch data from the ajax pets API!
    */
   function makeRequest() {
@@ -30,7 +31,6 @@
     // const url = `https://hanustartup.org/wpr/api/pets/index.php?animal=${animal}`;
     const url = `https://hanustartup.org/wpr/api/pets/index.php?animal=` + this.value;
 
-    
 
     fetch(url)
       .then(statusCheck)
@@ -45,7 +45,7 @@
   function processData(data) {
     const pictureDiv = id('pictures');
     pictureDiv.textContent = ""
-    
+
     let imgUrl = data.split('\n')
     imgUrl.forEach(path => {
       const imgDiv = document.createElement('img');

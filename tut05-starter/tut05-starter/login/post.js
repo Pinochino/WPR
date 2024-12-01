@@ -24,13 +24,20 @@
    * signIn - Signs the user in based on username and password inputs
    */
   function signIn() {
+    let message = id('response');
+    message.innnerHTML = '';
+
     const usernameValue = id('username').value;
     const passwordValue = id('password').value;
+
+    // if ((!usernameValue !== 'rainbowdash') || (!passwordValue !== 'ponyata')) {
+    //   message.innerHTML = 'Username and password is wrong';
+    // }
 
     const formDiv = new FormData();
     formDiv.append('user', usernameValue);
     formDiv.append('password', passwordValue);
-    
+
     //TODO
     fetch(API_URL, {
       method: "POST",
@@ -40,13 +47,13 @@
       .then(response => response.text()) // Response is plain text
       .then(data => displayData(data))
       .catch(handleError);
-    }
+  }
 
   /* ------------------------------ Helper Functions  ------------------------------ */
   function displayData(data) {
-  const response = id('response');
-  response.innerHTML = data;
-  return response;
+    const response = id('response');
+    response.textContent = data;
+    return response;
   }
 
   function handleError(error) {

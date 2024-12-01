@@ -7,9 +7,9 @@ const fs = require("fs").promises;
 
 // Middlewares
 const multer = require("multer");
-app.use(express.urlencoded({ extended: true })) 
-app.use(express.json()); 
-app.use(multer().none()); 
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(multer().none());
 
 // define 'add' endpoint here
 const port = 8000;

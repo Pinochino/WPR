@@ -32,7 +32,7 @@ function addProduct({ name, price }) {
 function updateProduct(id, { name, price }) {
     const products = getProducts();
     const product = products.find(product => product.id === parseInt(id, 10));
-    
+
     if (product) {
         product.name = name || product.name;
         product.price = price || product.price;
@@ -47,7 +47,7 @@ function updateProduct(id, { name, price }) {
 function deleteProduct(id) {
     let products = getProducts();
     const productIndex = products.findIndex(product => product.id === parseInt(id, 10));
-    
+
     if (productIndex !== -1) {
         products.splice(productIndex, 1);
         saveProducts(products);

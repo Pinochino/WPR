@@ -4,7 +4,7 @@ const http = require("http");
 const { getProducts, addProduct, deleteProduct, updateProduct } = require("./dataProvider");
 
 const products = getProducts();
-function findProductById(id){
+function findProductById(id) {
   return products.find(id);
 }
 
@@ -57,18 +57,18 @@ const server = http.createServer((req, res) => {
 
     req.on('end', () => {
       try {
-        const {name, price} = JSON.parse(body);
-        const productUpdate = updateProduct(id, {name, price});
-        res.writeHead(200, {'Content-Type': 'application/json'})
-        res.end(JSON.stringify({message: `Product have been updated successfully`, productUpdate: productUpdate}))
+        const { name, price } = JSON.parse(body);
+        const productUpdate = updateProduct(id, { name, price });
+        res.writeHead(200, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ message: `Product have been updated successfully`, productUpdate: productUpdate }))
       } catch (error) {
         if (error.message === 'Product not found') {
           res.writeHead(404, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ message: 'Product not found' }));
-      } else {
+        } else {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ message: 'Invalid data' }));
-      }
+        }
       }
     })
   }

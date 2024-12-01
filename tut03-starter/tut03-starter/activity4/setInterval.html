@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <h3>Set Interval</h3>
     <div id="countdown">
@@ -12,7 +14,7 @@
     </div>
     <script>
         window.addEventListener('load', CountDown)
-        
+
         // function CountDown() {
         //     let index = 3;
         //     const countdown = document.querySelector('#countdown');
@@ -31,16 +33,18 @@
         // }
 
         let counter = 3;
-        let timerId = null
+        let timerId = null;
         function CountDown() {
-            if(counter > 0){
+            if (counter > 0) {
                 console.log(counter);
-                counter--
-            } else if (counter === 0){
+                counter--;
+            } else if (counter === 0) {
                 console.log('Go');
+                clearInterval(timerId);
             }
         }
-        setInterval(CountDown, 1000)
+        timerId = setInterval(CountDown, 1000);
     </script>
 </body>
+
 </html>
